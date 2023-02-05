@@ -1,7 +1,8 @@
-
 import { useDispatch, useSelector } from 'react-redux';
-// import { addContact, getContacts } from '../../redux/slice';
+import { addContact, getContacts } from '../../redux/slice';
 import AddIcon from '@mui/icons-material/Add';
+import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+import TtyIcon from '@mui/icons-material/Tty';
 import {
   Sheet,
   FormControl,
@@ -12,38 +13,36 @@ import {
   CssVarsProvider,
 } from '@mui/joy';
 
-import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
-import TtyIcon from '@mui/icons-material/Tty';
-
 const ContactForm = () => {
-  // const contacts = useSelector(getContacts);
-  // const dispatch = useDispatch();
+  const contacts = useSelector(getContacts);
+  const dispatch = useDispatch();
 
-  // console.log(contacts);
-  // const onSubmitForm = e => {
-  // e.preventDefault();
-  // const name = e.target.name.value.trim();
-  // const number = e.target.number.value.trim();
-  // const foundEl = contacts.find(
-  //   el => el.name.toLowerCase() === name.toLowerCase()
-  // );
-  // if (foundEl) {
-  //   alert(`${foundEl.name} is already in contacts`);
-  // } else {
-  //   dispatch(addContact({ name, number }));
-  //   e.target.reset();
-  // }
-  // };
+  const onSubmitForm = e => {
+    e.preventDefault();
+    const name = e.target.name.value.trim();
+    const number = e.target.number.value.trim();
+
+    const foundEl = contacts.find(
+      el => el.name.toLowerCase() === name.toLowerCase()
+    );
+    if (foundEl) {
+      alert(`${foundEl.name} is already in contacts`);
+    } else {
+      dispatch(addContact({ name, number }));
+      e.target.reset();
+    }
+  };
   return (
     <CssVarsProvider>
       <Sheet
+        onSubmit={onSubmitForm}
         component="form"
         sx={{
           width: 350,
-          mx: 'auto', // margin left & right
-          my: 4, // margin top & botom
-          py: 3, // padding top & bottom
-          px: 2, // padding left & right
+          mx: 'auto',
+          my: 4,
+          py: 3,
+          px: 2,
           display: 'flex',
           flexDirection: 'column',
           gap: 2,

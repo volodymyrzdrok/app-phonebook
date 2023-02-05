@@ -1,9 +1,11 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, nanoid } from '@reduxjs/toolkit';
+import defaultContact from '../db/defaultData.json';
+
 export const appSlice = createSlice({
   name: 'app',
   initialState: {
     contacts: {
-      items: [],
+      items: defaultContact,
       isLoading: false,
       error: null,
     },
@@ -14,10 +16,26 @@ export const appSlice = createSlice({
     },
   },
   reducers: {
-    addContact({ contacts }, action) {},
-    removeContact({ contacts }, action) {},
+    addContact: {
+      reducer({ contacts }, action) {
+        contacts.items = [action.payload, ...contacts.items];
+      },
+      prepare({ name, number }) {
+        return {
+          payload: { id: nanoid(), name, number },
+        };
+      },
+    },
+
+    removeContact({ contacts }, action) {
+      contacts.items = contacts.items.filter(
+        contact => contact.id !== action.payload
+      );
+    },
     updateContact({ contacts }, action) {},
-    changeFilterValue({ filter }, action) {},
+    changeFilterValue(state, action) {
+      state.filter = action.payload;
+    },
     logIn({ auth }, action) {
       auth.userName = action.payload;
       auth.isLoggedIn = true;
@@ -31,6 +49,8 @@ export const appSlice = createSlice({
 
 export const getUserName = state => state.auth.userName;
 export const getStatusAuth = state => state.auth.isLoggedIn;
+export const getContacts = state => state.contacts.items;
+export const getFilter = state => state.filter;
 
 export const {
   addContact,
