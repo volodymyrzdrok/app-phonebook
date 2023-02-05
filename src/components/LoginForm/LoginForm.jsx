@@ -1,5 +1,5 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { getUserName, logIn } from 'redux/slice';
+import { useDispatch } from 'react-redux';
+import { logIn } from 'redux/slice';
 import {
   FormControl,
   Typography,
@@ -11,7 +11,6 @@ import {
 } from '@mui/joy';
 
 const LoginForm = () => {
-  //   const userName = useSelector(getUserName);
   const dispatch = useDispatch();
 
   const onSubmitForm = e => {

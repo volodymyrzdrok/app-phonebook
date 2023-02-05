@@ -32,7 +32,13 @@ export const appSlice = createSlice({
         contact => contact.id !== action.payload
       );
     },
-    updateContact({ contacts }, action) {},
+    updateContact({ contacts }, action) {
+      contacts.items = [
+        action.payload,
+        ...contacts.items.filter(contact => contact.id !== action.payload.id),
+      ];
+    },
+
     changeFilterValue(state, action) {
       state.filter = action.payload;
     },

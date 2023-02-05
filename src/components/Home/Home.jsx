@@ -1,6 +1,6 @@
-import imgPhonebook from '../../images/phonebook.jpg';
-import imgRegistration from '../../images/registration.jpg';
-import imgLogin from '../../images/login.jpg';
+import imgPhonebook from '../../images/phonebook.webp';
+import imgRegistration from '../../images/registration.webp';
+import imgLogin from '../../images/login.webp';
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import { Typography, Box, ButtonBase } from '@mui/material';
@@ -88,6 +88,16 @@ export default function Home() {
       >
         <b>Welcome in application</b>
       </Typography>
+      <Typography
+        sx={{ mt: 1 }}
+        variant="h5"
+        marked="center"
+        align="center"
+        component="h2"
+      >
+        Please login or register for access
+      </Typography>
+
       <Box sx={{ mt: 8, display: 'flex', flexWrap: 'wrap' }}>
         {images.map(image => (
           <ImageIconButton

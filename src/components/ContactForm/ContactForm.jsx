@@ -60,9 +60,9 @@ const ContactForm = () => {
             <PersonOutlineIcon sx={{ fontSize: 20 }} />
           </FormLabel>
           <Input
+            placeholder="name"
             name="name"
             type="text"
-            placeholder="name"
             pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
             required
           />
