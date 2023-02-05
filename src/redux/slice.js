@@ -1,5 +1,7 @@
 import { createSlice, nanoid } from '@reduxjs/toolkit';
 import defaultContact from '../db/defaultData.json';
+import { persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 
 export const appSlice = createSlice({
   name: 'app',
@@ -52,6 +54,13 @@ export const appSlice = createSlice({
     },
   },
 });
+
+const persistConfig = {
+  key: 'appPhonebook',
+  storage,
+  whitelist: ['auth'],
+};
+export const appReducer = persistReducer(persistConfig, appSlice.reducer);
 
 export const getUserName = state => state.auth.userName;
 export const getStatusAuth = state => state.auth.isLoggedIn;

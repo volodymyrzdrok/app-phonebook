@@ -27,10 +27,10 @@ const LoginForm = () => {
         component="form"
         sx={{
           width: 400,
-          mx: 'auto', // margin left & right
-          my: 4, // margin top & botom
-          py: 3, // padding top & bottom
-          px: 2, // padding left & right
+          mx: 'auto',
+          my: 4,
+          py: 3,
+          px: 2,
           display: 'flex',
           flexDirection: 'column',
           gap: 2,
@@ -46,7 +46,7 @@ const LoginForm = () => {
           <Typography level="body2">Sign in to continue.</Typography>
         </div>
         <FormControl>
-          <FormLabel>Email</FormLabel>
+          <FormLabel>Name User</FormLabel>
           <Input
             // name="email"
             // type="email"

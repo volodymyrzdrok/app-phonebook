@@ -9,11 +9,14 @@ import {
 import routes from 'constants/routes';
 // import styles from './Header.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { getStatusAuth, logOut } from '../../redux/slice';
+import { getStatusAuth, getUserName, logOut } from '../../redux/slice';
 import { NavLink } from 'react-router-dom';
+import { Box } from '@mui/system';
 
 const Header = () => {
   const authStatus = useSelector(getStatusAuth);
+  const userName = useSelector(getUserName);
+
   const dispatch = useDispatch();
 
   const handleChange = e => {
@@ -59,16 +62,21 @@ const Header = () => {
           </Button>
         </Stack>
       ) : (
-        <FormControlLabel
-          control={
-            <Switch
-              checked={authStatus}
-              onChange={handleChange}
-              aria-label="login switch"
-            />
-          }
-          label={authStatus ? 'Logout' : 'Login'}
-        />
+        <Box>
+          <FormControlLabel
+            control={
+              <Switch
+                checked={authStatus}
+                onChange={handleChange}
+                aria-label="login switch"
+              />
+            }
+            label={authStatus ? 'Logout' : 'Login'}
+          />
+          <Typography variant="caption" display="block" gutterBottom>
+            {userName}
+          </Typography>
+        </Box>
       )}
     </Toolbar>
   );
