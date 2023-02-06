@@ -15,10 +15,10 @@ const RegisterForm = () => {
         component="form"
         sx={{
           width: 400,
-          mx: 'auto', // margin left & right
-          my: 4, // margin top & botom
-          py: 3, // padding top & bottom
-          px: 2, // padding left & right
+          mx: 'auto', 
+          my: 4, 
+          py: 3, 
+          px: 2, 
           display: 'flex',
           flexDirection: 'column',
           gap: 2,
@@ -52,7 +52,7 @@ const RegisterForm = () => {
           />
         </FormControl>
 
-        <Button disabled sx={{ mt: 1 /* margin top */ }}>
+        <Button disabled sx={{ mt: 1  }}>
           Sign Up
         </Button>
       </Sheet>

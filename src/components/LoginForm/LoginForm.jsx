@@ -9,18 +9,17 @@ import {
   Sheet,
   CssVarsProvider,
 } from '@mui/joy';
-import { useNavigate } from 'react-router-dom';
+
 
 const LoginForm = () => {
   const dispatch = useDispatch();
-  // const navigate = useNavigate();
-
+ 
   const onSubmitForm = e => {
     e.preventDefault();
     const newUserName = e.target.name.value.trim();
     dispatch(logIn(newUserName));
     e.target.reset();
-    // navigate(routes.contacts, { replace: true });
+  
   };
 
   return (
@@ -69,7 +68,7 @@ const LoginForm = () => {
           />
         </FormControl>
 
-        <Button type="submit" sx={{ mt: 1 /* margin top */ }}>
+        <Button type="submit" sx={{ mt: 1 }}>
           Sign In
         </Button>
       </Sheet>

@@ -13,6 +13,9 @@ import {
   CssVarsProvider,
 } from '@mui/joy';
 import { addOneContact } from 'redux/operations';
+  import { ToastContainer, toast } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
+
 
 const ContactForm = () => {
   const contacts = useSelector(getContacts);
@@ -23,17 +26,16 @@ const ContactForm = () => {
     const name = e.target.name.value.trim();
     const number = e.target.number.value.trim();
     const createdAt =new Date()
-    // console.log('createdAt', createdAt);
+    
     
     const foundEl = contacts.find(
       el => el.name.toLowerCase() === name.toLowerCase()
     );
     if (foundEl) {
-      alert(`${foundEl.name} is already in contacts`);
+    toast.info(`${foundEl.name} is already in contacts`,settingAlert() );
+  
     } else {
       dispatch(addOneContact({name,number,createdAt}))
-      // dispatch(addContact({ name, number }));
-
       e.target.reset();
     }
   };
@@ -81,6 +83,7 @@ const ContactForm = () => {
             type="tel"
             placeholder="number"
             pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+            // inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
             required
           />
         </FormControl>
@@ -89,7 +92,7 @@ const ContactForm = () => {
           size="md"
           sx={theme => ({
             background: `linear-gradient(-45deg, ${theme.vars.palette.primary[800]}, ${theme.vars.palette.primary[500]})`,
-            fontWeight: 'lg', // short-hand syntax, same as `theme.fontWeight.lg`
+            fontWeight: 'lg', 
             '&:hover': {
               background: `linear-gradient(-45deg, ${theme.vars.palette.primary[900]}, ${theme.vars.palette.primary[600]})`,
             },
@@ -98,34 +101,24 @@ const ContactForm = () => {
           Add Contact <AddIcon sx={{ mx: 2 }} />
         </Button>
       </Sheet>
+       <ToastContainer />
     </CssVarsProvider>
   );
 };
 
 export default ContactForm;
 
-// <form className={c.form} onSubmit={onSubmitForm}>
-//   <label htmlFor="" className={c.label}>
-//     name
-//     <input
-//       className={c.nameInput}
-//       type="text"
-//       name="name"
-//       pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-//       title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-//       required
-//     />
-//   </label>
-//   <label htmlFor="" className={c.label}>
-//     number
-//     <input
-//       className={c.numberInput}
-//       type="tel"
-//       name="number"
-//       pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-//       title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-//       required
-//     />
-//   </label>
-//   <button className={c.formBtn}>Add contact</button>
-// </form>
+
+
+function settingAlert() {
+  return {
+position: "top-right",
+autoClose: 1700,
+hideProgressBar: false,
+closeOnClick: true,
+pauseOnHover: false,
+draggable: true,
+progress: undefined,
+theme: "light",
+}
+}

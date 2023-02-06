@@ -11,5 +11,5 @@ export const useRouteRedirect = (statusBool, pathName) => {
     if (authStatus === statusBool) {
       navigate(pathName, { replace: true });
     }
-  }, [navigate, authStatus, pathName]);
+  }, [navigate, authStatus, pathName,statusBool]);
 };

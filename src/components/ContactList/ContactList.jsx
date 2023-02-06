@@ -2,7 +2,6 @@ import { Box } from '@mui/system';
 import { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  
   getContacts,
   getFilter,
   getIsLoading,
@@ -16,18 +15,23 @@ import { Sheet } from '@mui/joy';
 import UpdateModal from 'components/UpdateModal/UpdateModal';
 import { fetchAllContacts, removeOneContact } from 'redux/operations';
 import Loader from 'components/Loader/Loader';
+import moment from 'moment';
+
+
 
 const ContactList = () => {
+
   const contacts = useSelector(getContacts);
   const filter = useSelector(getFilter);
   const isLoading = useSelector(getIsLoading);
   const dispatch = useDispatch();
 
+
   useEffect(() => {
     dispatch(fetchAllContacts());
   }, [dispatch]);
 
-  console.log(contacts);
+  
   const [openModal, setOpenModal] = useState(false);
   const [contactId, setUserDataModal] = useState('');
 
@@ -43,15 +47,16 @@ const ContactList = () => {
   const filterContacts = useMemo(() => {
     return contacts.filter(el => el.name.toLowerCase().includes(filter));
   }, [filter, contacts]);
-{{{{{{{{}}}}}}}}
+
   return (
     <>
       <Box component="ul">
         {isLoading ? (
           <Loader />
         ) : (
-          filterContacts.map(({ id, name, number }) => (
-            <Sheet
+          filterContacts.map(({ id, name, number,createdAt }) => (
+           
+              <Sheet
               key={id}
               component="li"
               sx={{
@@ -66,9 +71,23 @@ const ContactList = () => {
                 gap: 1,
                 borderRadius: 'sm',
                 boxShadow: 'sx',
+                position: 'relative'
               }}
               variant="outlined"
             >
+ <Typography
+                  level=""
+                  component="p"
+                  sx={{
+                    bottom: -2,
+                    right: 4,
+                    fontSize : 8,
+                 position : 'absolute'
+                  }}
+                >
+                  {  moment(createdAt).format('lll')}
+                </Typography>
+
               <PersonOutlinedIcon />
               <Box
                 sx={{
@@ -115,9 +134,7 @@ const ContactList = () => {
                   <RemoveCircleOutlineOutlinedIcon />
                 </IconButton>
               </div>
-
-         
-            </Sheet>
+              </Sheet> 
           ))
           )}
     
@@ -129,7 +146,7 @@ const ContactList = () => {
               handleClose={handleClose}
             />
           )}
-      {/* <Loader /> */}
+     
     </>
   );
 };

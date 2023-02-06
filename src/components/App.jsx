@@ -1,11 +1,13 @@
-import Contacts from 'pages/Contacts/Contacts';
 import routes from 'constants/routes';
-import Login from 'pages/Login/Login';
-import Register from 'pages/Register/Register';
 import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import Home from './Home/Home';
 import Layout from './Layout/Layout';
+import { lazy } from 'react';
+
+const Home = lazy(() => import('./Home/Home'));
+const Contacts = lazy(() => import('pages/Contacts/Contacts'));
+const Login = lazy(() => import('pages/Login/Login'));
+const Register = lazy(() => import('pages/Register/Register'));
 
 const App = () => {
   return (
@@ -22,3 +24,4 @@ const App = () => {
 };
 
 export default App;
+

@@ -5,10 +5,8 @@ import PersonSearchIcon from '@mui/icons-material/PersonSearch';
 
 const Filter = () => {
   const dispatch = useDispatch();
-
   const changeFilterValueFunc = e => {
     const value = e.target.value.trim().toLowerCase();
-
     dispatch(changeFilterValue(value));
   };
 
@@ -52,12 +50,3 @@ const Filter = () => {
 
 export default Filter;
 
-// <label htmlFor="" className={c.label}>
-//   Find contact by name
-//   <input
-//     onInput={changeFilterValueFunc}
-//     type="text"
-//     pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-//     title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-//   />
-// </label>

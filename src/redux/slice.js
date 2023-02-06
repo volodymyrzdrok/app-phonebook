@@ -1,9 +1,7 @@
-import { createSlice, nanoid } from '@reduxjs/toolkit';
-import { act } from 'react-dom/test-utils';
-// import defaultContact from '../db/defaultData.json';
+import { createSlice } from '@reduxjs/toolkit';
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import { updateContact,fetchAllContacts,fetchOneContact ,addOneContact,removeOneContact} from './operations';
+import { updateContact,fetchAllContacts ,addOneContact,removeOneContact} from './operations';
 
 export const appSlice = createSlice({
   name: 'app',
@@ -62,8 +60,7 @@ export const appSlice = createSlice({
     [removeOneContact.pending](state, action) {
      state.contacts.isLoading = true;},
     [removeOneContact.fulfilled](state, action) {
-      console.log(action.payload.id)
-      // state.contacts.items = state.contacts.items.filter(contact => contact.id !== action.payload);
+
          const index = state.contacts.items.findIndex(
         c => c.id === action.payload.id
       );
@@ -81,51 +78,16 @@ export const appSlice = createSlice({
   reducers: {
     changeFilterValue(state, action) {
     state.filter= action.payload
-    }}
+    },  logIn({ auth }, action) {
+      auth.userName = action.payload;
+      auth.isLoggedIn = true;
+    },
+    logOut({ auth }, action) {
+      auth.userName = '';
+      auth.isLoggedIn = false;
+    },}
 
-  // reducers: {
-  //   // Виконається в момент старту HTTP-запиту
-  //   fetchingInProgress(state) {},
-  //   // Виконається якщо HTTP-запит завершився успішно
-  //   fetchingSuccess() {},
-  //   // Виконається якщо HTTP-запит завершився з помилкою
-  //   fetchingError() {},
 
-  //   addContact: {
-  //     reducer({ contacts }, action) {
-  //       contacts.items = [action.payload, ...contacts.items];
-  //     },
-  //     prepare({ name, number }) {
-  //       return {
-  //         payload: { id: nanoid(), name, number },
-  //       };
-  //     },
-  //   },
-
-  //   removeContact({ contacts }, action) {
-  //     contacts.items = contacts.items.filter(
-  //       contact => contact.id !== action.payload
-  //     );
-  //   },
-  //   updateContact({ contacts }, action) {
-  //     contacts.items = [
-  //       action.payload,
-  //       ...contacts.items.filter(contact => contact.id !== action.payload.id),
-  //     ];
-  //   },
-
-  //   changeFilterValue(state, action) {
-  //     state.filter = action.payload;
-  //   },
-  //   logIn({ auth }, action) {
-  //     auth.userName = action.payload;
-  //     auth.isLoggedIn = true;
-  //   },
-  //   logOut({ auth }, action) {
-  //     auth.userName = '';
-  //     auth.isLoggedIn = false;
-  //   },
-  // },
 });
 
 const persistConfig = {
@@ -144,13 +106,7 @@ export const getError = state => state.contacts.error;
 export const getFilter = state => state.filter;
 
 export const {
-  // addContact,
-  // removeContact,
-  // updateContact,
   changeFilterValue,
   logIn,
   logOut,
-  // fetchingInProgress,
-  // fetchingSuccess,
-  // fetchingError,
 } = appSlice.actions;

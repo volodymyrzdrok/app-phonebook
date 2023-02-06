@@ -1,22 +1,17 @@
 import Box from '@mui/material/Box';
-
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { FormControl, IconButton, Input, InputLabel } from '@mui/material';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
-import { getContacts,  } from 'redux/slice';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch,  } from 'react-redux';
 import { useEffect, useState } from 'react';
 import fetchOneContact from 'services/fetchOneContact';
 import Loader from 'components/Loader/Loader';
 import { updateContact } from 'redux/operations';
+import moment from 'moment';
 
 
 export default function UpdateModal({ openModal, handleClose, contactId }) {
-  console.log('зaпустили модал ', contactId)
-  
-  // const contacts = useSelector(getContacts);
-
   const [contactObj, setContactObj] = useState(null);
   const dispatch = useDispatch();
 
@@ -32,18 +27,12 @@ export default function UpdateModal({ openModal, handleClose, contactId }) {
     const name = e.target.name.value.trim();
     const number = e.target.number.value.trim();
 
-    // const indexPotion = contacts.findIndex(el => el.id === id);
-
-    // if (indexPotion === -1) {
-    //   alert(`${name} not found in contacts`);
-    // } else {
-    dispatch(updateContact({ id,createdAt, name, number }));
-    e.target.reset();
+    dispatch(updateContact({ id,createdAt, name, number ,updated :true}));
     handleClose();
-    // }
+  
   };
 
-  return <>{ contactObj && <Modal
+  return  <Modal
     open={openModal}
     onClose={handleClose}
     aria-labelledby="modal-modal-title"
@@ -53,12 +42,25 @@ export default function UpdateModal({ openModal, handleClose, contactId }) {
       sx={style()}
       component="form"
       onSubmit={onUpdateContact}
-    // data-contactid={userData.id}
+    
     >
       <Typography sx={{ mb: 2 }} level="h6" color="primary" component="h2">
         <b> Edit contact</b>
       </Typography>
-      <Box>
+{ contactObj && <Typography
+                  component="p"
+                  sx={{
+                    color:'#00000099',
+                    bottom: -2,
+                    right: 4,
+                    fontSize : 14,
+                 position : 'absolute'
+                  }}
+                >
+        <b style={{color: "#1976d2"}}>{!contactObj.updated ? 'Created' : 'Updated' }:</b>   {moment(new Date()).format('lll')}
+                </Typography>}
+      
+      {!contactObj ? <Loader/> : <Box>
         <FormControl variant="standard">
           <InputLabel htmlFor="name">Name</InputLabel>
           <Input
@@ -85,9 +87,10 @@ export default function UpdateModal({ openModal, handleClose, contactId }) {
         <IconButton color="primary" aria-label="edit" type="submit">
           <BorderColorIcon sx={{ fontSize: 30 }} />
         </IconButton>
-      </Box>
+      </Box> }
     </Box>
-  </Modal>}</>
+    
+  </Modal>
 
 }
 

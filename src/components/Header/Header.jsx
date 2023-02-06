@@ -7,7 +7,6 @@ import {
   Switch,
 } from '@mui/material';
 import routes from 'constants/routes';
-// import styles from './Header.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { getStatusAuth, getUserName, logOut } from '../../redux/slice';
 import { NavLink } from 'react-router-dom';
