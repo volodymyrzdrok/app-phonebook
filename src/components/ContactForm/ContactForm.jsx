@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact, getContacts } from '../../redux/slice';
+import {  getContacts } from '../../redux/slice';
 import AddIcon from '@mui/icons-material/Add';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import TtyIcon from '@mui/icons-material/Tty';
@@ -12,6 +12,7 @@ import {
   Typography,
   CssVarsProvider,
 } from '@mui/joy';
+import { addOneContact } from 'redux/operations';
 
 const ContactForm = () => {
   const contacts = useSelector(getContacts);
@@ -21,14 +22,18 @@ const ContactForm = () => {
     e.preventDefault();
     const name = e.target.name.value.trim();
     const number = e.target.number.value.trim();
-
+    const createdAt =new Date()
+    // console.log('createdAt', createdAt);
+    
     const foundEl = contacts.find(
       el => el.name.toLowerCase() === name.toLowerCase()
     );
     if (foundEl) {
       alert(`${foundEl.name} is already in contacts`);
     } else {
-      dispatch(addContact({ name, number }));
+      dispatch(addOneContact({name,number,createdAt}))
+      // dispatch(addContact({ name, number }));
+
       e.target.reset();
     }
   };
