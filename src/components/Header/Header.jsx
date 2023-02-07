@@ -12,7 +12,10 @@ import { getStatusAuth, getUserName, logOut } from '../../redux/slice';
 import { NavLink } from 'react-router-dom';
 import { Box } from '@mui/system';
 
+
+
 const Header = () => {
+  
   const authStatus = useSelector(getStatusAuth);
   const userName = useSelector(getUserName);
 
@@ -22,6 +25,9 @@ const Header = () => {
     dispatch(logOut());
   };
 
+
+
+
   return (
     <Toolbar sx={{ borderBottom: 1, borderColor: 'divider' }} component="nav">
       <Button component={NavLink} to={routes.home} size="small">
@@ -29,8 +35,9 @@ const Header = () => {
       </Button>
 
       <Typography
+       
         component={NavLink}
-        to={routes.contacts}
+         to={routes.contacts} 
         // color="primary"
         variant="h6"
         color="inherit"

@@ -1,44 +1,32 @@
 import { Box } from '@mui/system';
-import { useEffect, useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  getContacts,
-  getFilter,
-  getIsLoading,
-} from '../../redux/slice';
-import { useState } from 'react';
+import { getContacts, getFilter, getIsLoading } from '../../redux/slice';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import ModeEditOutlinedIcon from '@mui/icons-material/ModeEditOutlined';
 import RemoveCircleOutlineOutlinedIcon from '@mui/icons-material/RemoveCircleOutlineOutlined';
 import { IconButton, Typography } from '@mui/material';
 import { Sheet } from '@mui/joy';
 import UpdateModal from 'components/UpdateModal/UpdateModal';
-import { fetchAllContacts, removeOneContact } from 'redux/operations';
+import { removeOneContact } from 'redux/operations';
 import Loader from 'components/Loader/Loader';
 import moment from 'moment';
 
-
-
 const ContactList = () => {
-
   const contacts = useSelector(getContacts);
   const filter = useSelector(getFilter);
   const isLoading = useSelector(getIsLoading);
   const dispatch = useDispatch();
 
-
-  useEffect(() => {
-    dispatch(fetchAllContacts());
-  }, [dispatch]);
-
-  
   const [openModal, setOpenModal] = useState(false);
   const [contactId, setUserDataModal] = useState('');
 
-  const handleOpen = (contactId) => {
+  const handleOpen = contactId => {
+    
     setUserDataModal(contactId);
     setOpenModal(true);
   };
+
   const handleClose = () => {
     setOpenModal(false);
     setUserDataModal(null);
@@ -54,9 +42,8 @@ const ContactList = () => {
         {isLoading ? (
           <Loader />
         ) : (
-          filterContacts.map(({ id, name, number,createdAt }) => (
-           
-              <Sheet
+          filterContacts.map(({ id, name, number, createdAt }) => (
+            <Sheet
               key={id}
               component="li"
               sx={{
@@ -71,28 +58,39 @@ const ContactList = () => {
                 gap: 1,
                 borderRadius: 'sm',
                 boxShadow: 'sx',
-                position: 'relative'
+                position: 'relative',
               }}
               variant="outlined"
             >
- <Typography
-                  level=""
-                  component="p"
-                  sx={{
-                    bottom: -2,
-                    right: 4,
-                    fontSize : 8,
-                 position : 'absolute'
-                  }}
-                >
-                  {  moment(createdAt).format('lll')}
-                </Typography>
+              <Typography
+                level=""
+                component="p"
+                sx={{
+                  bottom: -2,
+                  right: 4,
+                  fontSize: 8,
+                  position: 'absolute',
+                }}
+              >
+                {moment(createdAt).format('lll')}
+              </Typography>
 
               <PersonOutlinedIcon />
               <Box
                 sx={{
                   display: 'flex',
                   alignItems: 'center',
+                  //
+                  //
+                  //
+                  //
+                  // добавити медіазапит !!!
+                  //
+                  //
+                  //
+                  //
+                  //
+                  //
                 }}
               >
                 <Typography
@@ -134,19 +132,17 @@ const ContactList = () => {
                   <RemoveCircleOutlineOutlinedIcon />
                 </IconButton>
               </div>
-              </Sheet> 
+            </Sheet>
           ))
-          )}
-    
+        )}
       </Box>
-           {openModal && (
-            <UpdateModal
-               contactId={contactId}
-              openModal={openModal}
-              handleClose={handleClose}
-            />
-          )}
-     
+      {openModal && (
+        <UpdateModal
+          contactId={contactId}
+          openModal={openModal}
+          handleClose={handleClose}
+        />
+      )}
     </>
   );
 };
