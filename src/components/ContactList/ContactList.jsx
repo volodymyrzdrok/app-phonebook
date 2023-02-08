@@ -22,7 +22,6 @@ const ContactList = () => {
   const [contactId, setUserDataModal] = useState('');
 
   const handleOpen = contactId => {
-    
     setUserDataModal(contactId);
     setOpenModal(true);
   };

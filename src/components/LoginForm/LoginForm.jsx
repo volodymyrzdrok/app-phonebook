@@ -10,16 +10,14 @@ import {
   CssVarsProvider,
 } from '@mui/joy';
 
-
 const LoginForm = () => {
   const dispatch = useDispatch();
- 
+
   const onSubmitForm = e => {
     e.preventDefault();
     const newUserName = e.target.name.value.trim();
     dispatch(logIn(newUserName));
     e.target.reset();
-  
   };
 
   return (

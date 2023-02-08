@@ -22,6 +22,7 @@ export const appSlice = createSlice({
       isLoggedIn: false,
     },
   },
+
   extraReducers: builder => {
     builder
       .addCase(fetchAllContacts.fulfilled, (state, action) => {

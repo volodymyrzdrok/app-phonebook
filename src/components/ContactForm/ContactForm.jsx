@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import {  getContacts } from '../../redux/slice';
+import { getContacts } from '../../redux/slice';
 import AddIcon from '@mui/icons-material/Add';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import TtyIcon from '@mui/icons-material/Tty';
@@ -13,36 +13,58 @@ import {
   CssVarsProvider,
 } from '@mui/joy';
 import { addOneContact } from 'redux/operations';
-  import { ToastContainer, toast } from 'react-toastify';
-  import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 
+const SignupSchema = Yup.object().shape({
+  name: Yup.string()
+    .min(2, 'Too Short!')
+    .max(50, 'Too Long!')
+    .matches(
+      "^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$",
+      'only letters!'
+    )
+    .required('Required'),
+  number: Yup.number()
+    .typeError("That doesn't look like a phone number")
+    .positive("A phone number can't start with a minus")
+    .integer("A phone number can't include a decimal point")
+    .min(8)
+    .required('A phone number is required'),
+});
 
 const ContactForm = () => {
   const contacts = useSelector(getContacts);
   const dispatch = useDispatch();
 
-  const onSubmitForm = e => {
-    e.preventDefault();
-    const name = e.target.name.value.trim();
-    const number = e.target.number.value.trim();
-    const createdAt =new Date()
-    
-    
-    const foundEl = contacts.find(
-      el => el.name.toLowerCase() === name.toLowerCase()
-    );
-    if (foundEl) {
-    toast.info(`${foundEl.name} is already in contacts`,settingAlert() );
-  
-    } else {
-      dispatch(addOneContact({name,number,createdAt}))
-      e.target.reset();
-    }
-  };
+  const formik = useFormik({
+    initialValues: {
+      name: '',
+      number: '',
+    },
+    validationSchema: SignupSchema,
+    onSubmit: values => {
+      const createdAt = new Date();
+      const foundEl = contacts.find(
+        el => el.name.toLowerCase() === values.name.toLowerCase()
+      );
+      if (foundEl) {
+        toast.info(`${foundEl.name} is already in contacts`, settingAlert());
+      } else {
+        dispatch(addOneContact({ ...values, createdAt }));
+        formik.resetForm();
+      }
+    },
+  });
+
+  const { errors, touched } = formik;
+
   return (
     <CssVarsProvider>
       <Sheet
-        onSubmit={onSubmitForm}
+        onSubmit={formik.handleSubmit}
         component="form"
         sx={{
           width: 350,
@@ -64,27 +86,34 @@ const ContactForm = () => {
 
         <FormControl>
           <FormLabel>
-            <PersonOutlineIcon sx={{ fontSize: 20 }} />
+            <PersonOutlineIcon sx={{ fontSize: 20, mr: 3 }} />
+            <Typography sx={{ color: 'red', fontSize: 10 }}>
+              {errors.name && touched.name ? errors.name : null}
+            </Typography>
           </FormLabel>
           <Input
             placeholder="name"
             name="name"
             type="text"
-            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
             required
+            onChange={formik.handleChange}
+            value={formik.values.name}
           />
         </FormControl>
         <FormControl>
           <FormLabel>
-            <TtyIcon sx={{ fontSize: 20 }} />
+            <TtyIcon sx={{ fontSize: 20, mr: 3 }} />
+            <Typography sx={{ color: 'red', fontSize: 10 }}>
+              {errors.number && touched.number ? errors.number : null}
+            </Typography>
           </FormLabel>
           <Input
             name="number"
             type="tel"
             placeholder="number"
-            pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-            // inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
             required
+            onChange={formik.handleChange}
+            value={formik.values.number}
           />
         </FormControl>
         <Button
@@ -92,7 +121,7 @@ const ContactForm = () => {
           size="md"
           sx={theme => ({
             background: `linear-gradient(-45deg, ${theme.vars.palette.primary[800]}, ${theme.vars.palette.primary[500]})`,
-            fontWeight: 'lg', 
+            fontWeight: 'lg',
             '&:hover': {
               background: `linear-gradient(-45deg, ${theme.vars.palette.primary[900]}, ${theme.vars.palette.primary[600]})`,
             },
@@ -101,24 +130,22 @@ const ContactForm = () => {
           Add Contact <AddIcon sx={{ mx: 2 }} />
         </Button>
       </Sheet>
-       <ToastContainer />
+      <ToastContainer />
     </CssVarsProvider>
   );
 };
 
 export default ContactForm;
 
-
-
 function settingAlert() {
   return {
-position: "top-right",
-autoClose: 1700,
-hideProgressBar: false,
-closeOnClick: true,
-pauseOnHover: false,
-draggable: true,
-progress: undefined,
-theme: "light",
-}
+    position: 'top-right',
+    autoClose: 1700,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: true,
+    progress: undefined,
+    theme: 'light',
+  };
 }
