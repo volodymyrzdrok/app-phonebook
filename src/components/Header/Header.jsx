@@ -8,17 +8,16 @@ import {
 } from '@mui/material';
 import routes from 'constants/routes';
 import { useDispatch, useSelector } from 'react-redux';
-// import { getStatusAuth, getUserName, } from '../../redux/slice';
 import { NavLink } from 'react-router-dom';
 import { Box } from '@mui/system';
 import { logoutUser } from 'redux/auth/authOperations';
 import { selectAuthStatus, selectUserName } from 'redux/auth/authSlise';
+import { ToastContainer, toast } from 'react-toastify';
 
 const Header = () => {
   const authStatus = useSelector(selectAuthStatus);
   const userName = useSelector(selectUserName);
-  // console.log('authStatus :', authStatus);
-  // console.log('userName :', userName);
+
   const dispatch = useDispatch();
 
   const handleChange = e => {
@@ -36,19 +35,37 @@ const Header = () => {
         Home
       </Button>
 
-      <Typography
-        component={NavLink}
-        to={routes.contacts}
-        color="primary"
-        variant="h6"
-        // color="inherit"
-        align="center"
-        noWrap
-        sx={{ flex: 1 }}
-        style={isActiveFunc()}
-      >
-        Phonebook
-      </Typography>
+      {authStatus ? (
+        <Typography
+          component={NavLink}
+          to={routes.contacts}
+          color="primary"
+          variant="h6"
+          align="center"
+          noWrap
+          sx={{ flex: 1 }}
+          style={isActiveFunc()}
+        >
+          Phonebook
+        </Typography>
+      ) : (
+        <>
+          <Typography
+            onClick={() =>
+              toast.info('Please login or register for access', settingAlert())
+            }
+            color="primary"
+            variant="h6"
+            component="a"
+            align="center"
+            noWrap
+            sx={{ flex: 1 }}
+          >
+            Phonebook
+          </Typography>
+          <ToastContainer />
+        </>
+      )}
 
       {!authStatus ? (
         <Stack spacing={2} direction={'row'}>
@@ -107,4 +124,17 @@ function isActiveFunc() {
           filter: 'drop-shadow(5px 5px 5px rgba(0,0,0,0.5))',
         }
       : {};
+}
+
+function settingAlert() {
+  return {
+    position: 'top-center',
+    autoClose: 1300,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: true,
+    progress: undefined,
+    theme: 'light',
+  };
 }

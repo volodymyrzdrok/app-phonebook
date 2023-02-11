@@ -21,7 +21,7 @@ export const registerUser = createAsyncThunk(
         password,
       });
       setAuthHeader(response.data.idToken);
-      console.log('response.data :', response.data);
+
       return response.data;
     } catch (err) {
       console.log(err.message);
@@ -39,7 +39,7 @@ export const loginUser = createAsyncThunk(
         password,
       });
       setAuthHeader(response.data.idToken);
-      console.log('response.data :', response.data);
+
       return response.data;
     } catch (err) {
       console.log(err.message);
@@ -73,16 +73,15 @@ export const getUserCurrent = createAsyncThunk(
   'users/current',
   async (_, thunkAPI) => {
     const idToken = thunkAPI.getState().auth.idToken;
-    // const persistedToken = state.auth.idToken;
 
     if (!idToken) {
       return thunkAPI.rejectWithValue('Unable to fetch user');
     }
-    // console.log('getUserCurrent idToken :', idToken);
+
     try {
       setAuthHeader(idToken);
       const res = await axios.get('/users/current');
-      // console.log(' getUserCurrent es.data :', res.data);
+
       return res.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);

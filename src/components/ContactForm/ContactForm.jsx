@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from 'react-redux';
-
 import AddIcon from '@mui/icons-material/Add';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import TtyIcon from '@mui/icons-material/Tty';
@@ -14,7 +13,6 @@ import {
 } from '@mui/joy';
 import { addOneContact } from 'redux/contacts/contactsOperations';
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { selectContacts } from 'redux/contacts/contactsSlice';
@@ -47,7 +45,6 @@ const ContactForm = () => {
     },
     validationSchema: SignupSchema,
     onSubmit: values => {
-      // const createdAt = new Date();
       const foundEl = contacts.find(
         el => el.name.toLowerCase() === values.name.toLowerCase()
       );
