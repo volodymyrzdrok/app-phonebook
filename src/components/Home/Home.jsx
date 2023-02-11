@@ -6,6 +6,9 @@ import { styled } from '@mui/material/styles';
 import { Typography, Box, ButtonBase } from '@mui/material';
 import routes from 'constants/routes';
 import { NavLink } from 'react-router-dom';
+import { selectAuthStatus } from 'redux/auth/authSlise';
+import { useSelector } from 'react-redux';
+// import { ToastContainer, toast } from 'react-toastify';
 
 const ImageBackdrop = styled('div')(({ theme }) => ({
   position: 'absolute',
@@ -77,6 +80,7 @@ const images = [
 ];
 
 export default function Home() {
+  const authStatus = useSelector(selectAuthStatus);
   return (
     <>
       <Typography
@@ -134,7 +138,11 @@ export default function Home() {
             >
               <Typography
                 component={NavLink}
-                to={image.navig}
+                to={
+                  !authStatus && image.navig === routes.contacts
+                    ? routes.home
+                    : image.navig
+                }
                 variant="h6"
                 color="inherit"
                 className="imageTitle"
