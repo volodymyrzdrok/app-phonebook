@@ -14,7 +14,7 @@ export const fetchAllContacts = createAsyncThunk(
     setAuthHeader(idToken);
     try {
       const response = await axios.get('/contacts');
-      console.log('fetchAllContacts = response.data =>', response.data);
+
       return response.data;
     } catch (err) {
       console.log(err.message);
@@ -38,7 +38,7 @@ export const addOneContact = createAsyncThunk(
     setAuthHeader(idToken);
     try {
       const response = await axios.post('/contacts', newContactObj);
-      console.log('addOneContact = response.data =>', response.data);
+
       return response.data;
     } catch (err) {
       console.log(err.message);
