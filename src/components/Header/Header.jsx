@@ -8,18 +8,21 @@ import {
 } from '@mui/material';
 import routes from 'constants/routes';
 import { useDispatch, useSelector } from 'react-redux';
-import { getStatusAuth, getUserName, logOut } from '../../redux/slice';
+// import { getStatusAuth, getUserName, } from '../../redux/slice';
 import { NavLink } from 'react-router-dom';
 import { Box } from '@mui/system';
+import { logoutUser } from 'redux/auth/authOperations';
+import { selectAuthStatus, selectUserName } from 'redux/auth/authSlise';
 
 const Header = () => {
-  const authStatus = useSelector(getStatusAuth);
-  const userName = useSelector(getUserName);
-
+  const authStatus = useSelector(selectAuthStatus);
+  const userName = useSelector(selectUserName);
+  // console.log('authStatus :', authStatus);
+  // console.log('userName :', userName);
   const dispatch = useDispatch();
 
   const handleChange = e => {
-    dispatch(logOut());
+    dispatch(logoutUser());
   };
 
   return (

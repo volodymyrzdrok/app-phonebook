@@ -8,10 +8,11 @@ import {
   REGISTER,
 } from 'redux-persist';
 import { configureStore } from '@reduxjs/toolkit';
-import { appReducer } from './slice';
+import { contacts } from './contacts/contactsSlice';
+import { auth } from './auth/authSlise';
 
 export const store = configureStore({
-  reducer: appReducer,
+  reducer: { auth, contacts },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
       serializableCheck: {

@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { getContacts } from '../../redux/slice';
+
 import AddIcon from '@mui/icons-material/Add';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import TtyIcon from '@mui/icons-material/Tty';
@@ -12,11 +12,12 @@ import {
   Typography,
   CssVarsProvider,
 } from '@mui/joy';
-import { addOneContact } from 'redux/operations';
+import { addOneContact } from 'redux/contacts/contactsOperations';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { selectContacts } from 'redux/contacts/contactsSlice';
 
 const SignupSchema = Yup.object().shape({
   name: Yup.string()
@@ -36,7 +37,7 @@ const SignupSchema = Yup.object().shape({
 });
 
 const ContactForm = () => {
-  const contacts = useSelector(getContacts);
+  const contacts = useSelector(selectContacts);
   const dispatch = useDispatch();
 
   const formik = useFormik({
@@ -46,14 +47,14 @@ const ContactForm = () => {
     },
     validationSchema: SignupSchema,
     onSubmit: values => {
-      const createdAt = new Date();
+      // const createdAt = new Date();
       const foundEl = contacts.find(
         el => el.name.toLowerCase() === values.name.toLowerCase()
       );
       if (foundEl) {
         toast.info(`${foundEl.name} is already in contacts`, settingAlert());
       } else {
-        dispatch(addOneContact({ ...values, createdAt }));
+        dispatch(addOneContact(values));
         formik.resetForm();
       }
     },

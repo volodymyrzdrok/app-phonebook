@@ -1,28 +1,31 @@
 import { Box } from '@mui/system';
 import { useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getContacts, getFilter, getIsLoading } from '../../redux/slice';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import ModeEditOutlinedIcon from '@mui/icons-material/ModeEditOutlined';
 import RemoveCircleOutlineOutlinedIcon from '@mui/icons-material/RemoveCircleOutlineOutlined';
 import { IconButton, Typography } from '@mui/material';
 import { Sheet } from '@mui/joy';
 import UpdateModal from 'components/UpdateModal/UpdateModal';
-import { removeOneContact } from 'redux/operations';
+import { removeOneContact } from 'redux/contacts/contactsOperations';
 import Loader from 'components/Loader/Loader';
-import moment from 'moment';
+import {
+  selectContacts,
+  selectFilter,
+  selectLoadingContacts,
+} from 'redux/contacts/contactsSlice';
 
 const ContactList = () => {
-  const contacts = useSelector(getContacts);
-  const filter = useSelector(getFilter);
-  const isLoading = useSelector(getIsLoading);
+  const contacts = useSelector(selectContacts);
+  const filter = useSelector(selectFilter);
+  const isLoading = useSelector(selectLoadingContacts);
   const dispatch = useDispatch();
 
   const [openModal, setOpenModal] = useState(false);
-  const [contactId, setUserDataModal] = useState('');
+  const [contactObj, setUserDataModal] = useState(null);
 
-  const handleOpen = contactId => {
-    setUserDataModal(contactId);
+  const handleOpen = objContact => {
+    setUserDataModal(objContact);
     setOpenModal(true);
   };
 
@@ -41,7 +44,7 @@ const ContactList = () => {
         {isLoading ? (
           <Loader />
         ) : (
-          filterContacts.map(({ id, name, number, createdAt }) => (
+          filterContacts.map(({ id, name, number }) => (
             <Sheet
               key={id}
               component="li"
@@ -61,34 +64,13 @@ const ContactList = () => {
               }}
               variant="outlined"
             >
-              <Typography
-                level=""
-                component="p"
-                sx={{
-                  bottom: -2,
-                  right: 4,
-                  fontSize: 8,
-                  position: 'absolute',
-                }}
-              >
-                {moment(createdAt).format('lll')}
-              </Typography>
-
               <PersonOutlinedIcon />
               <Box
                 sx={{
                   display: 'flex',
                   alignItems: 'center',
-                  //
-                  //
-                  //
-                  //
+
                   // добавити медіазапит !!!
-                  //
-                  //
-                  //
-                  //
-                  //
                   //
                 }}
               >
@@ -118,7 +100,7 @@ const ContactList = () => {
                   color="primary"
                   aria-label="delete"
                   onClick={() => {
-                    handleOpen(id);
+                    handleOpen({ id, name, number });
                   }}
                 >
                   <ModeEditOutlinedIcon />
@@ -137,7 +119,7 @@ const ContactList = () => {
       </Box>
       {openModal && (
         <UpdateModal
-          contactId={contactId}
+          contactObj={contactObj}
           openModal={openModal}
           handleClose={handleClose}
         />

@@ -25,7 +25,7 @@ const Footer = () => {
           sx={{
             mx: 1,
           }}
-          href="https://github.com/volodymyrzdrok/grh-07"
+          href="https://github.com/volodymyrzdrok/app-phonebook"
         >
           this reposotory
         </Link>

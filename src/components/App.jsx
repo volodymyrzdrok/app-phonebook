@@ -1,8 +1,10 @@
 import routes from 'constants/routes';
-import React from 'react';
+import { useEffect } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import Layout from './Layout/Layout';
 import { lazy } from 'react';
+import { getUserCurrent } from 'redux/auth/authOperations';
+import { useDispatch } from 'react-redux';
 
 const Home = lazy(() => import('./Home/Home'));
 const Contacts = lazy(() => import('pages/Contacts/Contacts'));
@@ -10,6 +12,11 @@ const Login = lazy(() => import('pages/Login/Login'));
 const Register = lazy(() => import('pages/Register/Register'));
 
 const App = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getUserCurrent());
+  }, [dispatch]);
+
   return (
     <Routes>
       <Route path={routes.home} element={<Layout />}>

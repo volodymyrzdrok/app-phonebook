@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { changeFilterValue } from '../../redux/slice';
+import { changeFilterValue } from 'redux/contacts/contactsSlice';
 import { CssVarsProvider, FormControl, FormLabel, Input } from '@mui/joy';
 import PersonSearchIcon from '@mui/icons-material/PersonSearch';
 
@@ -49,4 +49,3 @@ const Filter = () => {
 };
 
 export default Filter;
-
