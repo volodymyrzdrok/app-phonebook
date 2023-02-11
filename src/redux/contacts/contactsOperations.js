@@ -71,7 +71,7 @@ export const updateContact = createAsyncThunk(
     const { id, name, number } = newObj;
     try {
       const response = await axios.patch(`/contacts/${id}`, { name, number });
-      console.log('updateContact = response.data =>', response.data);
+
       return response.data;
     } catch (err) {
       console.log(err.message);
