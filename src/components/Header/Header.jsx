@@ -13,6 +13,7 @@ import { Box } from '@mui/system';
 import { logoutUser } from 'redux/auth/authOperations';
 import { selectAuthStatus, selectUserName } from 'redux/auth/authSlise';
 import { ToastContainer, toast } from 'react-toastify';
+import { resetContactState } from 'redux/contacts/contactsSlice';
 
 const Header = () => {
   const authStatus = useSelector(selectAuthStatus);
@@ -22,6 +23,7 @@ const Header = () => {
 
   const handleChange = e => {
     dispatch(logoutUser());
+    dispatch(resetContactState());
   };
 
   return (

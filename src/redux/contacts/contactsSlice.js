@@ -20,6 +20,9 @@ export const contactsSlice = createSlice({
     changeFilterValue(state, action) {
       state.filter = action.payload;
     },
+    resetContactState(state, action) {
+      return (state = defaultState);
+    },
   },
   extraReducers: builder => {
     builder
@@ -79,5 +82,5 @@ export const selectLoadingContacts = state => state.contacts.isContLoading;
 export const selectContacts = state => state.contacts.items;
 export const selectFilter = state => state.contacts.filter;
 
-export const { changeFilterValue } = contactsSlice.actions;
+export const { changeFilterValue, resetContactState } = contactsSlice.actions;
 export const contacts = contactsSlice.reducer;
