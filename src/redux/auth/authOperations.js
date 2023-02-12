@@ -24,7 +24,7 @@ export const registerUser = createAsyncThunk(
 
       return response.data;
     } catch (err) {
-      console.log(err.message);
+      // console.log(err.message);
       return thunkAPI.rejectWithValue(err.message);
     }
   }
@@ -42,7 +42,7 @@ export const loginUser = createAsyncThunk(
 
       return response.data;
     } catch (err) {
-      console.log(err.message);
+      // console.log(err.message);
       return thunkAPI.rejectWithValue(err.message);
     }
   }

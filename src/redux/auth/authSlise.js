@@ -15,7 +15,11 @@ const defaultState = {
 export const authSlice = createSlice({
   name: 'auth',
   initialState: defaultState,
-
+  reducers: {
+    resetAuthError(state, action) {
+      state.errorAuth = null;
+    },
+  },
   extraReducers: builder => {
     builder
       .addCase(getUserCurrent.fulfilled, (state, { payload }) => {
@@ -90,5 +94,7 @@ const persistConfig = {
 export const selectIdToken = state => state.auth.idToken;
 export const selectUserName = state => state.auth.userName;
 export const selectAuthStatus = state => state.auth.isAuthStatus;
+export const selectAuthError = state => state.auth.errorAuth;
 
 export const auth = persistReducer(persistConfig, authSlice.reducer);
+export const { resetAuthError } = authSlice.actions;
