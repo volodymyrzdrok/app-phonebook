@@ -5,7 +5,8 @@ import Layout from './Layout/Layout';
 import { lazy } from 'react';
 import { getUserCurrent } from 'redux/auth/authOperations';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectAuthStatus } from 'redux/auth/authSlise';
+import { selectAuthStatus, selectCurrentUser } from 'redux/auth/authSlise';
+import Loader from './Loader/Loader';
 
 const Home = lazy(() => import('./Home/Home'));
 const Contacts = lazy(() => import('pages/Contacts/Contacts'));
@@ -25,30 +26,37 @@ const PublicRoute = ({ redirectTo = routes.home, component }) => {
 };
 
 const App = () => {
+  const currentUser = useSelector(selectCurrentUser);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getUserCurrent());
   }, [dispatch]);
 
   return (
-    <Routes>
-      <Route path={routes.home} element={<Layout />}>
-        <Route index element={<Home />} />
-        <Route
-          path={routes.contacts}
-          element={<PrivateRoute component={<Contacts />} />}
-        />
-        <Route
-          path={routes.login}
-          element={<PublicRoute component={<Login />} />}
-        />
-        <Route
-          path={routes.register}
-          element={<PublicRoute component={<Register />} />}
-        />
-        <Route path="*" element={<Navigate to={routes.home} replace />} />
-      </Route>
-    </Routes>
+    <>
+      {!currentUser ? (
+        <Routes>
+          <Route path={routes.home} element={<Layout />}>
+            <Route index element={<Home />} />
+            <Route
+              path={routes.contacts}
+              element={<PrivateRoute component={<Contacts />} />}
+            />
+            <Route
+              path={routes.login}
+              element={<PublicRoute component={<Login />} />}
+            />
+            <Route
+              path={routes.register}
+              element={<PublicRoute component={<Register />} />}
+            />
+            <Route path="*" element={<Navigate to={routes.home} replace />} />
+          </Route>
+        </Routes>
+      ) : (
+        <Loader />
+      )}
+    </>
   );
 };
 

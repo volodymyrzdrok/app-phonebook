@@ -9,6 +9,7 @@ const defaultState = {
   userName: '',
   idToken: null,
   isAuthLoading: false,
+  isFetchingCurrentUser: false,
   errorAuth: null,
 };
 
@@ -22,12 +23,16 @@ export const authSlice = createSlice({
   },
   extraReducers: builder => {
     builder
+      .addCase(getUserCurrent.pending, (state, { payload }) => {
+        state.isFetchingCurrentUser = true;
+      })
       .addCase(getUserCurrent.fulfilled, (state, { payload }) => {
         return {
           ...state,
           isAuthStatus: true,
           userName: payload.name,
           email: payload.email,
+          isFetchingCurrentUser: false,
         };
       })
       .addCase(logoutUser.fulfilled, (state, { payload }) => {
@@ -80,6 +85,7 @@ export const authSlice = createSlice({
         (state, action) => {
           state.isAuthLoading = false;
           state.errorAuth = action.payload;
+          state.isFetchingCurrentUser = false;
         }
       );
   },
@@ -95,6 +101,6 @@ export const selectIdToken = state => state.auth.idToken;
 export const selectUserName = state => state.auth.userName;
 export const selectAuthStatus = state => state.auth.isAuthStatus;
 export const selectAuthError = state => state.auth.errorAuth;
-
+export const selectCurrentUser = state => state.auth.isFetchingCurrentUser;
 export const auth = persistReducer(persistConfig, authSlice.reducer);
 export const { resetAuthError } = authSlice.actions;
